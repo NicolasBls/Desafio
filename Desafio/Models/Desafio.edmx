@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="IATecModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Endereco">
+          <Key>
+            <PropertyRef Name="enderecoId" />
+          </Key>
+          <Property Name="enderecoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estado" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cidade" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="bairro" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="endereco" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="numero" Type="int" />
+          <Property Name="complemento" Type="varchar" MaxLength="50" />
+          <Property Name="pessoaId" Type="int" Nullable="false" />
+          <Property Name="cep" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Numero">
+          <Key>
+            <PropertyRef Name="numeroId" />
+          </Key>
+          <Property Name="numeroId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numero" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pessoaId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pessoa">
+          <Key>
+            <PropertyRef Name="pessoaId" />
+          </Key>
+          <Property Name="pessoaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="dataNascimento" Type="date" Nullable="false" />
+          <Property Name="cpf" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'IATec.dbo.PessoaNumero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PessoaNumero">
+          <Key>
+            <PropertyRef Name="PessoaId" />
+            <PropertyRef Name="NumeroId" />
+          </Key>
+          <Property Name="PessoaId" Type="int" Nullable="false" />
+          <Property Name="NumeroId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Endereco_Pessoa">
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+          <End Role="Endereco" Type="Self.Endereco" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoa">
+              <PropertyRef Name="pessoaId" />
+            </Principal>
+            <Dependent Role="Endereco">
+              <PropertyRef Name="pessoaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Numero_Pessoa">
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+          <End Role="Numero" Type="Self.Numero" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoa">
+              <PropertyRef Name="pessoaId" />
+            </Principal>
+            <Dependent Role="Numero">
+              <PropertyRef Name="pessoaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PessoaNumero_Numero">
+          <End Role="Numero" Type="Self.Numero" Multiplicity="1" />
+          <End Role="PessoaNumero" Type="Self.PessoaNumero" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Numero">
+              <PropertyRef Name="numeroId" />
+            </Principal>
+            <Dependent Role="PessoaNumero">
+              <PropertyRef Name="NumeroId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PessoaNumero_Pessoa">
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+          <End Role="PessoaNumero" Type="Self.PessoaNumero" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoa">
+              <PropertyRef Name="pessoaId" />
+            </Principal>
+            <Dependent Role="PessoaNumero">
+              <PropertyRef Name="PessoaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="IATecModelStoreContainer">
+          <EntitySet Name="Endereco" EntityType="Self.Endereco" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Numero" EntityType="Self.Numero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pessoa" EntityType="Self.Pessoa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PessoaNumero" EntityType="Self.PessoaNumero" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PessoaNumero].[PessoaId] AS [PessoaId], 
+    [PessoaNumero].[NumeroId] AS [NumeroId]
+    FROM [dbo].[PessoaNumero] AS [PessoaNumero]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Endereco_Pessoa" Association="Self.FK_Endereco_Pessoa">
+            <End Role="Pessoa" EntitySet="Pessoa" />
+            <End Role="Endereco" EntitySet="Endereco" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Numero_Pessoa" Association="Self.FK_Numero_Pessoa">
+            <End Role="Pessoa" EntitySet="Pessoa" />
+            <End Role="Numero" EntitySet="Numero" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PessoaNumero_Numero" Association="Self.FK_PessoaNumero_Numero">
+            <End Role="Numero" EntitySet="Numero" />
+            <End Role="PessoaNumero" EntitySet="PessoaNumero" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PessoaNumero_Pessoa" Association="Self.FK_PessoaNumero_Pessoa">
+            <End Role="Pessoa" EntitySet="Pessoa" />
+            <End Role="PessoaNumero" EntitySet="PessoaNumero" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IATecModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Endereco">
+          <Key>
+            <PropertyRef Name="enderecoId" />
+          </Key>
+          <Property Name="enderecoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cidade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bairro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="endereco1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numero" Type="Int32" />
+          <Property Name="complemento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pessoaId" Type="Int32" Nullable="false" />
+          <Property Name="cep" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Pessoa" Relationship="Self.FK_Endereco_Pessoa" FromRole="Endereco" ToRole="Pessoa" />
+        </EntityType>
+        <EntityType Name="Numero">
+          <Key>
+            <PropertyRef Name="numeroId" />
+          </Key>
+          <Property Name="numeroId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numero1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pessoaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Pessoa" Relationship="Self.FK_Numero_Pessoa" FromRole="Numero" ToRole="Pessoa" />
+          <NavigationProperty Name="Pessoa1" Relationship="Self.PessoaNumero" FromRole="Numero" ToRole="Pessoa" />
+        </EntityType>
+        <EntityType Name="Pessoa">
+          <Key>
+            <PropertyRef Name="pessoaId" />
+          </Key>
+          <Property Name="pessoaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dataNascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="cpf" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Endereco" Relationship="Self.FK_Endereco_Pessoa" FromRole="Pessoa" ToRole="Endereco" />
+          <NavigationProperty Name="Numero" Relationship="Self.FK_Numero_Pessoa" FromRole="Pessoa" ToRole="Numero" />
+          <NavigationProperty Name="Numero1" Relationship="Self.PessoaNumero" FromRole="Pessoa" ToRole="Numero" />
+        </EntityType>
+        <Association Name="FK_Endereco_Pessoa">
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+          <End Role="Endereco" Type="Self.Endereco" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoa">
+              <PropertyRef Name="pessoaId" />
+            </Principal>
+            <Dependent Role="Endereco">
+              <PropertyRef Name="pessoaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Numero_Pessoa">
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+          <End Role="Numero" Type="Self.Numero" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoa">
+              <PropertyRef Name="pessoaId" />
+            </Principal>
+            <Dependent Role="Numero">
+              <PropertyRef Name="pessoaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PessoaNumero">
+          <End Role="Numero" Type="Self.Numero" Multiplicity="*" />
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="IATecEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Endereco" EntityType="Self.Endereco" />
+          <EntitySet Name="Numero" EntityType="Self.Numero" />
+          <EntitySet Name="Pessoa" EntityType="Self.Pessoa" />
+          <AssociationSet Name="FK_Endereco_Pessoa" Association="Self.FK_Endereco_Pessoa">
+            <End Role="Pessoa" EntitySet="Pessoa" />
+            <End Role="Endereco" EntitySet="Endereco" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Numero_Pessoa" Association="Self.FK_Numero_Pessoa">
+            <End Role="Pessoa" EntitySet="Pessoa" />
+            <End Role="Numero" EntitySet="Numero" />
+          </AssociationSet>
+          <AssociationSet Name="PessoaNumero" Association="Self.PessoaNumero">
+            <End Role="Numero" EntitySet="Numero" />
+            <End Role="Pessoa" EntitySet="Pessoa" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IATecModelStoreContainer" CdmEntityContainer="IATecEntities">
+          <EntitySetMapping Name="Endereco">
+            <EntityTypeMapping TypeName="IATecModel.Endereco">
+              <MappingFragment StoreEntitySet="Endereco">
+                <ScalarProperty Name="enderecoId" ColumnName="enderecoId" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="cidade" ColumnName="cidade" />
+                <ScalarProperty Name="bairro" ColumnName="bairro" />
+                <ScalarProperty Name="endereco1" ColumnName="endereco" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="complemento" ColumnName="complemento" />
+                <ScalarProperty Name="pessoaId" ColumnName="pessoaId" />
+                <ScalarProperty Name="cep" ColumnName="cep" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Numero">
+            <EntityTypeMapping TypeName="IATecModel.Numero">
+              <MappingFragment StoreEntitySet="Numero">
+                <ScalarProperty Name="numeroId" ColumnName="numeroId" />
+                <ScalarProperty Name="numero1" ColumnName="numero" />
+                <ScalarProperty Name="pessoaId" ColumnName="pessoaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pessoa">
+            <EntityTypeMapping TypeName="IATecModel.Pessoa">
+              <MappingFragment StoreEntitySet="Pessoa">
+                <ScalarProperty Name="pessoaId" ColumnName="pessoaId" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="dataNascimento" ColumnName="dataNascimento" />
+                <ScalarProperty Name="cpf" ColumnName="cpf" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="PessoaNumero" TypeName="IATecModel.PessoaNumero" StoreEntitySet="PessoaNumero">
+            <EndProperty Name="Numero">
+              <ScalarProperty Name="numeroId" ColumnName="NumeroId" />
+            </EndProperty>
+            <EndProperty Name="Pessoa">
+              <ScalarProperty Name="pessoaId" ColumnName="PessoaId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

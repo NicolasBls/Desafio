@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IATecModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="IATecEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Endereco" EntityType="IATecModel.Endereco" />
+    <EntitySet Name="Numero" EntityType="IATecModel.Numero" />
+    <EntitySet Name="Pessoa" EntityType="IATecModel.Pessoa" />
+    <AssociationSet Name="FK_Endereco_Pessoa" Association="IATecModel.FK_Endereco_Pessoa">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="Endereco" EntitySet="Endereco" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Numero_Pessoa" Association="IATecModel.FK_Numero_Pessoa">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="Numero" EntitySet="Numero" />
+    </AssociationSet>
+    <AssociationSet Name="PessoaNumero" Association="IATecModel.PessoaNumero">
+      <End Role="Numero" EntitySet="Numero" />
+      <End Role="Pessoa" EntitySet="Pessoa" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Endereco">
+    <Key>
+      <PropertyRef Name="enderecoId" />
+    </Key>
+    <Property Name="enderecoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="cidade" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="bairro" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="endereco1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="numero" Type="Int32" />
+    <Property Name="complemento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="pessoaId" Type="Int32" Nullable="false" />
+    <Property Name="cep" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Pessoa" Relationship="IATecModel.FK_Endereco_Pessoa" FromRole="Endereco" ToRole="Pessoa" />
+  </EntityType>
+  <EntityType Name="Numero">
+    <Key>
+      <PropertyRef Name="numeroId" />
+    </Key>
+    <Property Name="numeroId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="numero1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="pessoaId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Pessoa" Relationship="IATecModel.FK_Numero_Pessoa" FromRole="Numero" ToRole="Pessoa" />
+    <NavigationProperty Name="Pessoa1" Relationship="IATecModel.PessoaNumero" FromRole="Numero" ToRole="Pessoa" />
+  </EntityType>
+  <EntityType Name="Pessoa">
+    <Key>
+      <PropertyRef Name="pessoaId" />
+    </Key>
+    <Property Name="pessoaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dataNascimento" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="cpf" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Endereco" Relationship="IATecModel.FK_Endereco_Pessoa" FromRole="Pessoa" ToRole="Endereco" />
+    <NavigationProperty Name="Numero" Relationship="IATecModel.FK_Numero_Pessoa" FromRole="Pessoa" ToRole="Numero" />
+    <NavigationProperty Name="Numero1" Relationship="IATecModel.PessoaNumero" FromRole="Pessoa" ToRole="Numero" />
+  </EntityType>
+  <Association Name="FK_Endereco_Pessoa">
+    <End Type="IATecModel.Pessoa" Role="Pessoa" Multiplicity="1" />
+    <End Type="IATecModel.Endereco" Role="Endereco" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="pessoaId" />
+      </Principal>
+      <Dependent Role="Endereco">
+        <PropertyRef Name="pessoaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Numero_Pessoa">
+    <End Type="IATecModel.Pessoa" Role="Pessoa" Multiplicity="1" />
+    <End Type="IATecModel.Numero" Role="Numero" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="pessoaId" />
+      </Principal>
+      <Dependent Role="Numero">
+        <PropertyRef Name="pessoaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PessoaNumero">
+    <End Type="IATecModel.Numero" Role="Numero" Multiplicity="*" />
+    <End Type="IATecModel.Pessoa" Role="Pessoa" Multiplicity="*" />
+  </Association>
+</Schema>

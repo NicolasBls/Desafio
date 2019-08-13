@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Desafio.Models.Endereco>
+
+@{
+    ViewBag.Title = "_ListarEndereco";
+    Layout = null;
+}
+
+<div class="card" style="width: 18rem;">
+    <ul class="list-group list-group-flush">
+        @foreach (var item in Model)
+        {
+
+        <li class="list-group-item" style="font-size:10pt">
+            @Html.DisplayFor(modelItem => item.endereco1), @Html.DisplayFor(modelItem => item.numero)<a class="pull-right btn btn-sm btn-danger" href="@Url.Action("DeletarEndereco","Pessoa", new { item.enderecoId })"><i class="fa fa-remove" aria-hidden="true"></i></a><br />
+            @Html.DisplayFor(modelItem => item.complemento)<br />
+            @Html.DisplayFor(modelItem => item.bairro)<br />
+            @Html.DisplayFor(modelItem => item.cidade) - @Html.DisplayFor(modelItem => item.estado)  <br />
+            @Html.DisplayFor(modelItem => item.cep)
+
+        </li>
+        }
+    </ul>
+</div>

@@ -1,0 +1,54 @@
+﻿@model Desafio.Models.ExternalLoginConfirmationViewModel
+@{
+    ViewBag.Title = "Registre-se";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>Associe a sua conta @ViewBag.LoginProvider.</h3>
+@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <h4>Forma de associação</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <p class="text-info">
+        Você se autenticou com êxito com <strong>@ViewBag.LoginProvider</strong>.
+        Insira mais informações abaixo e clique no botão Registrar para concluir
+        o login.
+    </p>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", disabled = "disabled" })
+            @Html.HiddenFor(x=>x.Email)
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger"})
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Nome", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="nome" required value="@ViewBag.nome"/>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("CPF", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="cpf" required/>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Data de Nascimento", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input type="date" class="form-control" name="data" required/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-success" value="Registre-se" />
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

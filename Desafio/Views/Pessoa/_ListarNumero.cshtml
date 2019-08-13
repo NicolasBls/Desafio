@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Desafio.Models.Numero>
+
+@{
+    ViewBag.Title = "ListarNumero";
+    Layout = null;
+}
+
+
+<div class="card" style="width: 18rem;">
+    <ul class="list-group list-group-flush">
+        @foreach (var item in Model)
+        {
+
+        <li class="list-group-item">
+            @Html.DisplayFor(modelItem => item.numero1)
+            <a class="pull-right btn btn-sm btn-danger" href="@Url.Action("DeletarNumero","Pessoa", new { item.numeroId })"><i class="fa fa-remove" aria-hidden="true"></i></a>
+        </li>
+        }
+    </ul>
+</div>
+
+
+
+

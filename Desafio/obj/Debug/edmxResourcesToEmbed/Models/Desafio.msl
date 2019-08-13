@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="IATecModelStoreContainer" CdmEntityContainer="IATecEntities">
+    <EntitySetMapping Name="Endereco">
+      <EntityTypeMapping TypeName="IATecModel.Endereco">
+        <MappingFragment StoreEntitySet="Endereco">
+          <ScalarProperty Name="enderecoId" ColumnName="enderecoId" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="cidade" ColumnName="cidade" />
+          <ScalarProperty Name="bairro" ColumnName="bairro" />
+          <ScalarProperty Name="endereco1" ColumnName="endereco" />
+          <ScalarProperty Name="numero" ColumnName="numero" />
+          <ScalarProperty Name="complemento" ColumnName="complemento" />
+          <ScalarProperty Name="pessoaId" ColumnName="pessoaId" />
+          <ScalarProperty Name="cep" ColumnName="cep" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Numero">
+      <EntityTypeMapping TypeName="IATecModel.Numero">
+        <MappingFragment StoreEntitySet="Numero">
+          <ScalarProperty Name="numeroId" ColumnName="numeroId" />
+          <ScalarProperty Name="numero1" ColumnName="numero" />
+          <ScalarProperty Name="pessoaId" ColumnName="pessoaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pessoa">
+      <EntityTypeMapping TypeName="IATecModel.Pessoa">
+        <MappingFragment StoreEntitySet="Pessoa">
+          <ScalarProperty Name="pessoaId" ColumnName="pessoaId" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="dataNascimento" ColumnName="dataNascimento" />
+          <ScalarProperty Name="cpf" ColumnName="cpf" />
+          <ScalarProperty Name="email" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="PessoaNumero" TypeName="IATecModel.PessoaNumero" StoreEntitySet="PessoaNumero">
+      <EndProperty Name="Numero">
+        <ScalarProperty Name="numeroId" ColumnName="NumeroId" />
+      </EndProperty>
+      <EndProperty Name="Pessoa">
+        <ScalarProperty Name="pessoaId" ColumnName="PessoaId" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

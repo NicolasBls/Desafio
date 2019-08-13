@@ -1,0 +1,89 @@
+﻿@model Desafio.Models.Pessoa
+
+@{
+    ViewBag.Title = "Detalhes";
+
+    var endereco = ViewBag.endereco;
+}
+
+<div class="card">
+    <div class="card-header">
+        <span style="font-size: 15pt">
+            Detalhes <a class="btn btn-outline-dark pull-right" href="@Url.Action("Editar", new { Model.pessoaId })"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+        </span>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-4">
+
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        Nome
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.nome)
+                    </dd>
+
+                    <dt>
+                        Data de Nascimento
+                    </dt>
+
+                    <dd>
+                        @Model.dataNascimento.ToString("dd/MM/yyyy")
+                    </dd>
+
+                    <dt>
+                        CPF
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.cpf)
+                    </dd>
+
+                    <dt>
+                        Email
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.email)
+                    </dd>
+
+                </dl>
+            </div>
+            <div class="col-md-4">
+                <h4>Endereço(s)</h4>
+                <div class="card" style="width: 18rem;">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var item in Model.Endereco)
+                        {
+                            <li class="list-group-item" style="font-size:10pt">
+                                @item.endereco1, @item.numero<br />
+                                @item.complemento)<br />
+                                @item.bairro)<br />
+                                @item.cidade) - @item.estado)  <br />
+                                @item.cep)
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h4>Telefone(s)</h4>
+                <div class="card" style="width: 18rem;">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var item in Model.Numero)
+                        {
+
+                            <li class="list-group-item">
+                                @item.numero1
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

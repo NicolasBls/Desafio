@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Desafio.Models.Pessoa>
+
+@{
+    ViewBag.Title = "Listar";
+
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <span style="font-size: 15pt">Lista de Pessoas</span> <a href="@Url.Action("Criar")" class="btn btn-outline-primary pull-right" data-toggle="modal" data-target=".bd-example-modal-sm">Nova Pessoa</a>
+    </div>
+    <div class="card-body">
+        <table class="table" id="table">
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Data de Nascimento
+                </th>
+                <th>
+                    CPF
+                </th>
+                <th>
+                    Email
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nome)
+                    </td>
+                    <td>
+                        @item.dataNascimento.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cpf)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.email)
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-dark" href="@Url.Action("Editar", new { item.pessoaId })"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark" href="@Url.Action("Detalhes", new { item.pessoaId })"><i class="fa fa-list" S aria-hidden="true"></i></a>
+                        @*<a href="@Url.Action("Deletar", new { item.pessoaId })"><i class="fa fa-remove" aria-hidden="true"></i></a>*@
+                        <button class="btn btn-outline-dark" title="Remover" data-toggle="modal" data-target="#Modal" id="remo" onclick="myFunction('@item.pessoaId')"><i class="fa fa-remove" aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+@*MODAL DE EXCLUSÃO DE PESSOA*@
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        @using (Html.BeginForm("Deletar", "Pessoa", FormMethod.Post))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Remover</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    Deseja realmente remover?
+
+                    <input type="hidden" id="pessoaId" name="pessoaId" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" value="Remover" class="btn btn-danger">
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@*MODAL DE INCLUSÃO DE PESSOA*@
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            @{Html.RenderAction("Criar", "Pessoa");}
+        </div>
+    </div>
+</div>
+
+<script>
+    function myFunction(id) {
+        $("#pessoaId").val(id);
+    }
+</script>   

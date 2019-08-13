@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Meu Aplicativo ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Scripts/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <style>
+        a {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Desafio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Listar", "Pessoa")">Pessoas <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </nav>
+    <div class="container body-content mt-5">
+
+        @RenderBody()
+
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Meu Aplicativo ASP.NET</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+
+    <script>
+
+        $(document).ready(function () {
+            $('#table').DataTable({
+                "scrollX": true,
+                "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sProcessing": "A processar...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "Não foram encontrados resultados",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando de 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(filtrado de _MAX_ registros no total)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Procurar:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Primeiro",
+                        "sPrevious": "Anterior",
+                        "sNext": "Seguinte",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            }
+            )
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var item = $('a[href*="' + window.location.pathname + '"]');
+            item.parent().addClass("active");
+            item.parent().parent().addClass("active");
+        });
+    </script>
+
+    <script>
+        //Funcao que faz o mascaramento do input
+        //uso:
+        //<input class="mask-cpf" data-mask="999.999.999-99"/>
+        $(document).ready(function () {
+            $(".mask-cpf").each(function () {
+                $(this).mask($(this).attr("data-mask"));
+            });
+        });
+    </script>
+    <script>
+        //Funcao que faz o mascaramento do input
+        //uso:
+        //<input class="mask-numero" data-mask="(99) 9 9999-9999"/>
+        $(document).ready(function () {
+            $(".mask-numero").each(function () {
+                $(this).mask($(this).attr("data-mask"));
+            });
+        });
+    </script>
+
+</body>
+</html>
